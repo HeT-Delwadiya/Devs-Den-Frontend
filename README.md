@@ -21,7 +21,7 @@ A platform built with MERN stack, and utilizes third party API's. This platform 
 
 ## Note 
 
-  * This repo is just frontend of Dev's Den website. You need socket server and backend also. Check out socket server and backend of DevsDen projects -> https://github.com/HeT-Delwadiya/.
+  * This repo is just a frontend of Dev's Den website. You need socket server and backend also. Check out socket server and backend of DevsDen projects -> https://github.com/HeT-Delwadiya/.
 
 ## Disclaimer
 
@@ -40,7 +40,7 @@ $ npm install
 ## Setup
 
 ```
- Create .env file that include:
+ Create .env file that includes:
 
   * REACT_APP_BACKEND=http://localhost:8000/api
   * REACT_APP_FRONTEND=http://localhost:3000/
