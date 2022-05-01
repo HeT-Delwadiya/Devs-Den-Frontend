@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { createDevProfile, uploadImage } from './helper/userapicalls';
 import _ from 'lodash';
 import { authenticate } from '../auth/helper';
+import { v4 as uuidv4 } from 'uuid';
 
 function CreateDevProfile(props) {
 
@@ -25,7 +26,8 @@ function CreateDevProfile(props) {
               success: false,
               didRedirect: false,
               isLoading: false,
-              userId: ""
+              userId: "",
+              token: ""
        });
 
        const [education, setEducation] = React.useState({
@@ -55,7 +57,7 @@ function CreateDevProfile(props) {
 
        const {jobtitle, jobcompany, jobposition, joblocation, jobfrom, jobto} = experience;
 
-       const {type, name, email, password, avatar, field, company, website, location, skills, github, bio, error, success, isLoading, didRedirect, userId} = values;
+       const {type, name, email, password, avatar, field, company, website, location, skills, github, bio, error, success, isLoading, didRedirect, userId, token} = values;
 
        const handleChange = name => event => {
               setValues({...values, error:false, [name]:event.target.value});
@@ -101,6 +103,8 @@ function CreateDevProfile(props) {
               let finalSkills = _.map(tempSkillsArr, _.trim);
               setValues({...values, skills: finalSkills, education: education, experience: experience, error: false, didRedirect:false});
 
+              const genToken = uuidv4();
+
               const formdata = {
                      type: type,
                      name: name,
@@ -115,7 +119,8 @@ function CreateDevProfile(props) {
                      github: github,
                      bio: bio,
                      education: education,
-                     experience: experience
+                     experience: experience,
+                     token: genToken
               }
 
               createDevProfile(formdata)
@@ -123,27 +128,42 @@ function CreateDevProfile(props) {
                      if (data.error)
                             setValues({...values, error: data.error, isLoading: false});
                      else if (data.Message)
-                            return setValues({...values, error: data.Message, isLoading: false});
+                            setValues({...values, error: data.Message, isLoading: false});
                      else {
-                            authenticate(data, () => {
-                                   setValues({...values, isLoading:false, userId:data.user._id, didRedirect: true});
-                            });
+                            // authenticate(data, () => {
+                            //        setValues({...values, isLoading:false, userId:data.user._id, didRedirect: true});
+                            // });
+                            setValues({...values, success: true})
                      }
               })
               .catch(err => console.log(err));
+              window.scrollTo({
+                     top: 0, 
+                     behavior: 'smooth'
+              });
        }
 
-       const performRedirect = () => {
-              if(didRedirect) {
-                     return <Redirect to={`/user/${userId}/profile`} />
-              }
-       }
+       // const performRedirect = () => {
+       //        if(didRedirect) {
+       //               return <Redirect to={`/user/${userId}/profile`} />
+       //        }
+       // }
 
        const errorMsg = () => {
               return (
                      <div className="container mt-3">
                             <div className="alert alert-danger text-center" style={{display: error ? "" : "none"}}>
                                    {error}
+                            </div>
+                     </div>
+              );
+       }
+
+       const successMsg = () => {
+              return (
+                     <div className="container mt-3">
+                            <div className="alert alert-success text-center" style={{display: success ? "" : "none"}}>
+                                   Verification email sent to your account. Please verify your email.
                             </div>
                      </div>
               );
@@ -167,7 +187,8 @@ function CreateDevProfile(props) {
                      <div className="col-12 ">
 
                             {errorMsg()}
-                            {performRedirect()}
+                            {successMsg()}
+                            {/*performRedirect()*/}
                             <div className="position-fixed top-50 start-50 translate-middle" style={{zIndex: "100"}}>{loading()}</div>
 
                             <div className="theme-bg rounded mt-5 col-5 mx-auto"><h5 className="card-title text-center mb-5 fw-bold fs-5 text-white p-2">Create your profile</h5></div>
@@ -224,7 +245,7 @@ function CreateDevProfile(props) {
                             <div className="form-floating col-8 mx-auto">
                                    
                                    <input type="text" onChange={handleChange("location")} value={location} className="form-control" id="floatingInput"  placeholder="John Cena"/>
-                                   <label className="ph-gray" className="ph-gray" htmlFor="floatingInput">Location*</label>
+                                   <label className="ph-gray" htmlFor="floatingInput">Location*</label>
                             </div>
                             <div className="col-8 mx-auto theme-color mb-4"><small>city & state eg. Rajkot, Gujarat</small></div>
 

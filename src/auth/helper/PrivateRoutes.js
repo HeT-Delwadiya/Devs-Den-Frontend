@@ -3,11 +3,14 @@ import { isAuthenticated } from "./index";
 import { Redirect, Route } from "react-router-dom";
 
 function PrivateRoute({ component:Component, ...rest }) {
+
+       const {user} = isAuthenticated();
+
        return (
               <Route
                      {...rest}
                      render={props =>
-                            isAuthenticated() ? (
+                            user && user?.isVerified ? (
                             <Component {...props} />
                             ) : (
                             <Redirect

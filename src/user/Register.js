@@ -36,6 +36,10 @@ function Register() {
 
        const handleSubmit = event => {
               event.preventDefault();
+              if(email=="")
+                     return setValues({...values, error: "Please enter valid email!"});
+              if(password=="")
+                     return setValues({...values, error: "Please enter a password!"});
               setValues({...values, error:false, isLoading:true});
               checkUserEmail({email:email, type:type})
                      .then(data => {

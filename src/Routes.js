@@ -21,6 +21,8 @@ import JoinGroup from "./communication/JoinGroup";
 import GroupInfo from "./communication/components/GroupInfo";
 import ContactUs from "./core/ContactUs";
 import AboutUs from "./core/AboutUs";
+import VerifyUser from "./user/VerifyUser";
+import VerifyCompany from "./user/VerifyCompany";
 
 function Routes() {
        return (
@@ -31,6 +33,8 @@ function Routes() {
                      <Route path="/login" exact component={Login} />
                      <Route path="/contact" exact component={ContactUs} />
                      <Route path="/about" exact component={AboutUs} />
+                     <Route path="/user/verify/:userId/:token" exact component={VerifyUser} />
+                     <Route path="/company/verify/:companyId/:token" exact component={VerifyCompany} />
                      <PrivateRoutes path="/compiler" exact component={Compiler} />
                      <PrivateRoutes path="/compiler/code/:codeId" exact component={SavedCode} />
                      <PrivateRoutes path="/docs" exact component={Docs} />

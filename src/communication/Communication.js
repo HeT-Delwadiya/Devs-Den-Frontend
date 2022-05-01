@@ -98,11 +98,8 @@ function Communication(props) {
               loadMessages();
        }, [conUpdated]);
 
-       React.useEffect(() => {
+       React.useEffect(() => { 
               socket?.current.emit("addUser", user._id);
-              // socket.current.on("getUsers", (users) => {
-              //
-              // });
        }, [user]);
 
        React.useEffect(() => {

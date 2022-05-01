@@ -69,22 +69,27 @@ function CreatePost() {
                                    setError(data.error)
                             else {
                                    setSuccess(true); 
-                                   setIsLoading(false);
                                    setDescription("");
                                    setImageUrl("");
                                    setImage("");
+                                   setIsUploaded(false)
                             }
                      })
                      .catch(err => setError(err))
+              setIsLoading(false);
+              window.scrollTo({
+                     top: 0, 
+                     behavior: 'smooth'
+              });
        }
 
        const errorMsg = () => {
               return (
-                   <div className="container mt-3">
-                        <div className="alert alert-danger text-center" style={{display: error ? "" : "none"}}>
-                             {error}
-                        </div>
-                   </div>
+                     <div className="container mt-3">
+                            <div className="alert alert-danger text-center" style={{display: error ? "" : "none"}}>
+                                   {error}
+                            </div>
+                     </div>
               );
        }
 

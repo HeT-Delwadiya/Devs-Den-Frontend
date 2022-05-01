@@ -233,3 +233,19 @@ export const deleteComAcc = (companyId, token) => {
        .then(response => response.json())
        .catch(err => console.log(err))
 }
+
+export const verifyUserEmail = (userId, token) => {
+       return fetch(`${API}/user/verify/${userId}/${token}`,{
+              method: "GET"
+       })
+       .then(response => response.json())
+       .catch(err => console.log(err)) 
+}
+
+export const verifyCompanyEmail = (companyId, token) => {
+       return fetch(`${API}/company/verify/${companyId}/${token}`,{
+              method: "GET"
+       })
+       .then(response => response.json())
+       .catch(err => console.log(err)) 
+}

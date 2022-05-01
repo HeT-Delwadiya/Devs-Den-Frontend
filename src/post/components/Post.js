@@ -13,7 +13,7 @@ function Post(props) {
        const [isComment, setIsComment] = React.useState(false);
        const [userDetails, setUserDetails] = React.useState({});
        const [comment, setComment] = React.useState("");
-       const [commentId, setCommentId] = React.useState("");
+       const [commentId, setCommentId] = React.useState(null);
 
        const {user, authtoken} = isAuthenticated();
        
@@ -95,7 +95,7 @@ function Post(props) {
               }
        }
 
-       const deleteComment = (commentId) => {
+       const deleteComment = () => {
               removeComment(post._id, {commentId}, authtoken)
                      .then(data => {
                             if(data.error)
@@ -121,7 +121,7 @@ function Post(props) {
 
        const deletePostPopup = () => {
               return (<div>
-                     <div className="modal fade" id="deletePostPop" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                     <div className="modal fade" id={`deletePostPop${post._id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div className="modal-dialog">
                                    <div className="modal-content">
                                           <div className="modal-header">
@@ -143,7 +143,7 @@ function Post(props) {
 
        const deleteComPopup = () => {
               return (<div>
-                     <div className="modal fade" id="deleteComPop" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                     <div className="modal fade" id={`deleteComPop${post._id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div className="modal-dialog">
                                    <div className="modal-content">
                                           <div className="modal-header">
@@ -155,7 +155,7 @@ function Post(props) {
                                           </div>
                                           <div className="modal-footer">
                                                  <button type="button" className="btn btn-success rounded-3" data-bs-dismiss="modal">No</button>
-                                                 <button type="button" onClick={() => deleteComment(commentId)} data-bs-dismiss="modal" className="btn btn-danger rounded-3">Delete</button>
+                                                 <button type="button" onClick={deleteComment} data-bs-dismiss="modal" className="btn btn-danger rounded-3">Delete</button>
                                           </div>
                                    </div>
                             </div>
@@ -176,7 +176,7 @@ function Post(props) {
                                           <Link className="text-white" to={post.userType=="User" ? `/user/${posterId}/profile` : `/company/${posterId}/profile`}><h5><strong>{userDetails.name}</strong></h5></Link>
                                    </div>
                                    <div className="col-1 mt-3 ms-3">
-                                          {user._id==posterId && (<button data-bs-toggle="modal" data-bs-target="#deletePostPop" className="btn btn-light rounded-3" type="submit"><i className="fas fa-trash"></i></button>)}
+                                          {user._id==posterId && (<button data-bs-toggle="modal" data-bs-target={`#deletePostPop${post._id}`} className="btn btn-light rounded-3" type="submit"><i className="fas fa-trash"></i></button>)}
                                    </div>
                             </div>
                             <hr className="text-white"/>
@@ -203,7 +203,7 @@ function Post(props) {
                                           </div>
                                           <div className="white-bg">
                                                  {post.comments.map((comment, index) => {
-                                                        return (<div key={index}>
+                                                        return (<div key={comment.commentId}>
                                                                <div className="row align-items-center ms-3">
                                                                       <div className="col-1 mt-1 ms-3">
                                                                              <img src={comment.avatar} className="rounded-circle"  style={{height: "50px", width: "50px"}}/>
@@ -213,7 +213,7 @@ function Post(props) {
                                                                              <p>{comment.text}</p>
                                                                       </div>
                                                                       <div className="col-1 mt-1 ms-3">
-                                                                             {user._id==comment.userId && (<button onClick={() => setCommentId(comment.commentId)} data-bs-toggle="modal" data-bs-target="#deleteComPop" className="btn btn-light rounded-3" type="submit"><i className="fas fa-trash"></i></button>)}
+                                                                             {user._id==comment.userId && (<button onClick={() => setCommentId(comment.commentId)} data-bs-toggle="modal" data-bs-target={`#deleteComPop${post._id}`} className="btn btn-light rounded-3" type="submit"><i className="fas fa-trash"></i></button>)}
                                                                       </div>
                                                                </div>
                                                         </div>)
