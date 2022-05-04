@@ -17,7 +17,7 @@ A platform built with MERN stack, and utilizes third party API's. This platform 
   * Developers can create their group and invite other developers. (Direct messaging functionality also)
   * Companies can create their professional profiles
   * Companies can find developers on skill bases and communicate with them
-  * Companies can share their achievements
+  * Companies can share their achievements 
 
 ## Demo
  
